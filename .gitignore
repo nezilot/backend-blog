@@ -1,0 +1,45 @@
+
+# Binaries и скомпилированные файлы
+/bin/
+/backend.exe
+
+# Файлы IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Файлы окружения (безопасность!)
+.env
+.env.local
+.env*.backup
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# Dependency директории (используйте go mod)
+vendor/
+
+# Тестовые кэши
+/testdata/
+/coverage.txt
+*.out
+
+# Автогенерируемые файлы
+*.pb.go
+*-generated.go
+
+# Миграции (если используете сторонние инструменты вроде goose)
+/migrations/*.sql
+
+# Файлы специфичные для Go
+/go.sum
+/go.work
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Docker-специфичные файлы (если не храните в репо)
+docker-compose.override.yml
