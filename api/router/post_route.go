@@ -12,6 +12,10 @@ func NewPostRouter(group *gin.RouterGroup) {
 	postGroup := group.Group("/post")
 	{
 		postGroup.GET("", pc.GetPosts)
+		postGroup.GET("/:id", pc.GetPost)
+		postGroup.POST("", pc.CreatePost)
+		postGroup.PUT("/:id", pc.UpdatePost)
+		postGroup.DELETE("/:id", pc.DeletePost)
 	}
 
 }
