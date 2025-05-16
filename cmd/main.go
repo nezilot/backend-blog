@@ -12,9 +12,12 @@ func main() {
 
 	env := app.Env
 
+	db := app.Psql.Database(env.DBName)
+	defer app.CloseBDConnection()
+
 	gin := gin.Default()
 
-	route.Setup(env, gin)
+	route.Setup(env, gin, db)
 
 	gin.Run(env.Port)
 

@@ -1,18 +1,19 @@
 package boostrap
 
-import (
-	"database/sql"
-	_ "github.com/lib/pq"
-)
+import "blog/pgsql"
 
 type Aplictation struct {
 	Env  *Env
-	Psql sql.DB
+	Psql pgsql.Client
 }
 
-func App() Aplictation {
+func App() *Aplictation {
 	app := &Aplictation{}
 	app.Env = NewEnv()
-	app.Psql = *NewPsql(app.Env)
-	return *app
+	app.Psql = NewPsql(app.Env)
+	return app
+}
+
+func (app *Aplictation) CloseBDConnection() {
+	ClosePsqlConnection(app.Psql)
 }

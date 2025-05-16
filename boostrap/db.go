@@ -1,16 +1,14 @@
 package boostrap
 
 import (
+	"blog/pgsql"
 	"context"
-	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"log"
 	"time"
 )
 
-func NewPsql(env *Env) *sql.DB {
-
+func NewPsql(env *Env) pgsql.Client {
 	dbUser := env.DBUser
 	dbPass := env.DBPass
 	dbName := env.DBName
@@ -19,20 +17,31 @@ func NewPsql(env *Env) *sql.DB {
 	connStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=%s",
 		dbUser, dbPass, dbName, dbSsl)
 
-	fmt.Println(connStr)
-
-	db, err := sql.Open("postgres", connStr)
+	client, err := pgsql.NewClient(connStr)
 	if err != nil {
-		log.Fatal(fmt.Errorf("ошибка при подключении к psql: %w", err))
+		log.Fatal(err)
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err = db.PingContext(ctx)
+	err = client.Connect(ctx)
 	if err != nil {
-		log.Fatal(fmt.Errorf("ошибка при проверке подключения к psql: %w", err))
+		log.Fatal(err)
 	}
 
-	return db
+	return client
+}
+
+func ClosePsqlConnection(client pgsql.Client) {
+	if client == nil {
+		return
+	}
+
+	err := client.Disconnect(context.TODO())
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }
