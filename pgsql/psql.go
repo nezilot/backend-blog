@@ -8,10 +8,10 @@ import (
 )
 
 type Database interface {
-	Collection(string) Collection
+	Table(string) Table
 }
 
-type Collection interface {
+type Table interface {
 	FindOne(context.Context, interface{}) (SingleResult, error)
 	InsertOne(context.Context, interface{}) (interface{}, error)
 	DeleteOne(context.Context, interface{}) (int64, error)
