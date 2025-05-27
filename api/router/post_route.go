@@ -2,11 +2,12 @@ package route
 
 import (
 	"blog/api/controller"
+	"blog/pgsql"
 
 	"github.com/gin-gonic/gin"
 )
 
-func NewPostRouter(group *gin.RouterGroup) {
+func NewPostRouter(group *gin.RouterGroup, db pgsql.Database) {
 	pc := &controller.PostController{}
 
 	postGroup := group.Group("/post")
